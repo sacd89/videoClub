@@ -14,37 +14,33 @@ import java.util.logging.Logger;
  */
 public class Conexion {
     
-    private static Conexion INSTANCE;
-    private Connection con;
     private final static String USUARIO = "root";
     private final static String PASSWORD = "soojung";
-    private final static String CONEXION = "jdbc:mysql://localhost:3306/db_video?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+    private final static String CONEXION =
+            "jdbc:mysql://localhost:3306/db_video?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+    private static Conexion INSTANCE;
+    private Connection con;
 
     private Conexion() {
-        initConnection();
+        this.initConection();
     }
-    
-    private void initConnection(){
+
+    private void initConection() {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(CONEXION, USUARIO, PASSWORD);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public static Conexion getInstance(){
-        if(INSTANCE == null){
+
+    public static Conexion getInstance() {
+        if (INSTANCE == null) {
             INSTANCE = new Conexion();
         }
         return INSTANCE;
     }
-    
-    /**
-     * @return the con
-     */
+
     public Connection getCon() {
         return con;
     }
