@@ -24,3 +24,9 @@ Cada vez que se devuelve una película, se comprueba si hay alguien en su lista 
 
 #### Diagrama de Clases
 ![diagramaclases](https://cloud.githubusercontent.com/assets/12077561/18759007/b9390ad8-80b7-11e6-9e26-07b1e71f68a1.png)
+
+#### Base de Datos
+Para conectarse a su base de datos en la clase "Conexion" debera cambiar el nombre de la base de datos, el usuario y la contraseña de dicha conexión.
+
+#### Pruebas Unitarias
+El modelo cuenta con pruebas unitarias, para que las pruebas unitarias tengan exito, se deberan cambiar los datos dependiendo de los datos que se encuentren en su base de datos.
