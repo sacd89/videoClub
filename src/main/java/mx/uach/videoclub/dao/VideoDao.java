@@ -171,7 +171,7 @@ public interface VideoDao {
      * @param criterio string que sera el criterio de busqueda.
      * @return objects que es la lista de peliculas.
      */
-    public List<Pelicula> getPeliculesByCriteria(String criterio);
+    public List<Pelicula> getPeliculasByCriteria(String criterio);
 
     /**
      * Método donde realizamos operaciones CRUD para el modelo Pelicula.

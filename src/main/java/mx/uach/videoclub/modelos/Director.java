@@ -10,7 +10,7 @@ import mx.uach.videoclub.modelos.genericos.Model;
  */
 public class Director extends Model {
 
-    public static final String TABLA = "Director";
+    public static final String TABLA = "directores";
 
     public static final String[] FIELDS = {"id", "nombre"};
 

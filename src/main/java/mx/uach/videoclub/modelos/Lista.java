@@ -12,9 +12,9 @@ import mx.uach.videoclub.modelos.genericos.Model;
  */
 public class Lista extends Model {
 
-    public static final String TABLA = "Lista";
+    public static final String TABLA = "listas";
 
-    public static final String[] FIELDS = {"id", "fecha", "hora", "estatus", "socio", "pelicula"};
+    public static final String[] FIELDS = {"id", "fecha", "hora", "estatus", "socios_id", "peliculas_id"};
 
     public static final String Q = String.format("SELECT %s FROM %s",
             fieldsToQuery(FIELDS, Boolean.FALSE), TABLA);

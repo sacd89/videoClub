@@ -1,6 +1,6 @@
 package mx.uach.videoclub.modelos;
 
-import java.util.List;
+import mx.uach.videoclub.dao.enums.Genero;
 import mx.uach.videoclub.modelos.genericos.Model;
 
 /**
@@ -12,10 +12,10 @@ import mx.uach.videoclub.modelos.genericos.Model;
  */
 public class Pelicula extends Model {
 
-    public static final String TABLA = "Pelicula";
+    public static final String TABLA = "peliculas";
 
     public static final String[] FIELDS = {"id", "titulo", "genero", "duracion",
-        "director", "actores"};
+        "director_id"};
 
     public static final String Q = String.format("SELECT %s FROM %s",
             fieldsToQuery(FIELDS, Boolean.FALSE), TABLA);
@@ -34,11 +34,10 @@ public class Pelicula extends Model {
             = String.format("%s %s %s ?", Model.DELETE, TABLA, Model.Q_WHERE_ID);
 
     private String titulo;
-    private String genero;
+    private Genero genero;
     private Integer duracion;
     private Director director;
-    private List<Actor> actores;
-
+    
     /**
      * Constructor vacio.
      */
@@ -53,14 +52,12 @@ public class Pelicula extends Model {
      * @param genero que es el genero de la pelicula.
      * @param duracion que es la duración de la pelicula.
      * @param director que es el director de la pelicula.
-     * @param actores que son los actores de la pelicula.
      */
-    public Pelicula(String titulo, String genero, Integer duracion, Director director, List<Actor> actores) {
+    public Pelicula(String titulo, Genero genero, Integer duracion, Director director) {
         this.titulo = titulo;
         this.genero = genero;
         this.duracion = duracion;
         this.director = director;
-        this.actores = actores;
     }
 
     /**
@@ -72,15 +69,13 @@ public class Pelicula extends Model {
      * @param genero que es el genero de la pelicula.
      * @param duracion que es la duración de la pelicula.
      * @param director que es el director de la pelicula.
-     * @param actores que son los actores de la pelicula.
      */
-    public Pelicula(Integer id, String titulo, String genero, Integer duracion, Director director, List<Actor> actores) {
+    public Pelicula(Integer id, String titulo, Genero genero, Integer duracion, Director director) {
         this.setId(id);
         this.titulo = titulo;
         this.genero = genero;
         this.duracion = duracion;
         this.director = director;
-        this.actores = actores;
     }
 
     /**
@@ -106,7 +101,7 @@ public class Pelicula extends Model {
      *
      * @return genero que es el genero de la pelicula.
      */
-    public String getGenero() {
+    public Genero getGenero() {
         return genero;
     }
 
@@ -115,7 +110,7 @@ public class Pelicula extends Model {
      *
      * @param genero que es el genero de la pelicula.
      */
-    public void setGenero(String genero) {
+    public void setGenero(Genero genero) {
         this.genero = genero;
     }
 
@@ -155,21 +150,4 @@ public class Pelicula extends Model {
         this.director = director;
     }
 
-    /**
-     * Método que obtiene una lista de actores de la pelicula.
-     *
-     * @return actores que es una lista de actores de la pelicula.
-     */
-    public List<Actor> getActores() {
-        return actores;
-    }
-
-    /**
-     * Método que asigna actores a una pelicula.
-     *
-     * @param actores que es una lista de actores de la pelicula.
-     */
-    public void setActores(List<Actor> actores) {
-        this.actores = actores;
-    }
 }

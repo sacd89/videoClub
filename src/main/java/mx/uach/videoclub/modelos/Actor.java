@@ -11,7 +11,7 @@ import mx.uach.videoclub.modelos.genericos.Model;
  */
 public class Actor extends Model {
 
-    public static final String TABLA = "Actor";
+    public static final String TABLA = "actores";
 
     public static final String[] FIELDS = {"id", "nombre", "apellido"};
 

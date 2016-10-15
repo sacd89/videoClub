@@ -21,10 +21,16 @@ public class Conexion {
     private static Conexion INSTANCE;
     private Connection con;
 
+    /**
+     * Constructor de la conexión a la base de datos.
+     */
     private Conexion() {
         this.initConection();
     }
 
+    /**
+     * Método que crea la conexión a la base de datos.
+     */
     private void initConection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -34,6 +40,11 @@ public class Conexion {
         }
     }
 
+    /**
+     * Método que obtiene la instancia de la conexión de la base de datos.
+     * 
+     * @return INSTANCE que es la instancia que creamos.
+     */
     public static Conexion getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new Conexion();
@@ -41,6 +52,11 @@ public class Conexion {
         return INSTANCE;
     }
 
+    /**
+     * Método que obtiene la conexión.
+     * 
+     * @return con que es la conexión de la base de datos.
+     */
     public Connection getCon() {
         return con;
     }

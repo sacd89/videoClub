@@ -13,10 +13,10 @@ import mx.uach.videoclub.modelos.genericos.Model;
  */
 public class Prestamo extends Model {
 
-    public static final String TABLA = "Prestamo";
+    public static final String TABLA = "prestamo";
 
-    public static final String[] FIELDS = {"id", "fechaEntrega", "estatus",
-        "ficha", "cinta"};
+    public static final String[] FIELDS = {"id", "fecha_entrega", "estatus",
+        "fichas_id", "cintas_id"};
 
     public static final String Q = String.format("SELECT %s FROM %s",
             fieldsToQuery(FIELDS, Boolean.FALSE), TABLA);
@@ -130,7 +130,7 @@ public class Prestamo extends Model {
      * @param ficha que es la ficha de un prestamo.
      */
     public void setFicha(Ficha ficha) {
-        this.ficha = ficha;
+        this.ficha= ficha;
     }
 
     /**

@@ -11,9 +11,9 @@ import mx.uach.videoclub.modelos.genericos.Model;
  */
 public class Cinta extends Model {
 
-    public static final String TABLA = "Cinta";
+    public static final String TABLA = "cintas";
 
-    public static final String[] FIELDS = {"id", "numeroCopias", "pelicula"};
+    public static final String[] FIELDS = {"id", "numero_copia", "peliculas_id"};
 
     public static final String Q = String.format("SELECT %s FROM %s",
             fieldsToQuery(FIELDS, Boolean.FALSE), TABLA);

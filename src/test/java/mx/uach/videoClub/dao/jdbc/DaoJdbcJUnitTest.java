@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 import mx.uach.videoclub.dao.VideoDao;
 import mx.uach.videoclub.dao.enums.CRUD;
+import mx.uach.videoclub.dao.enums.Genero;
 import mx.uach.videoclub.dao.enums.Prestamos;
 import mx.uach.videoclub.dao.jdbc.VideoDaoJDBC;
 import mx.uach.videoclub.modelos.Actor;
@@ -14,10 +15,12 @@ import mx.uach.videoclub.modelos.Lista;
 import mx.uach.videoclub.modelos.Pelicula;
 import mx.uach.videoclub.modelos.Prestamo;
 import mx.uach.videoclub.modelos.Socio;
+import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
@@ -39,23 +42,14 @@ public class DaoJdbcJUnitTest {
 
         // Id = 1 James Cameron
         Director d = dao.getDirectorById(1);
-
+        System.out.println("d = " + d);
         assertNotNull(d);
         assertEquals(d.getNombre(), "James Cameron");
 
         assertNotSame(d.getNombre(), "Alfonso Cuaron");
-
-        //Id = 2 Alfonso Cuaron
-        Director d2 = dao.getDirectorById(2);
-
-        assertNotNull(d2);
-        assertEquals(d2.getNombre(), "Alfonso Cuaron");
-
-        assertNotSame(d2.getNombre(), "James Cameron");
-
+        
         List<Director> directores = dao.getDirectoresByCriteria("");
-        //assertEquals(3, directores.size());
-
+        Assert.assertFalse(directores.isEmpty());
     }
 
     /**
@@ -102,12 +96,12 @@ public class DaoJdbcJUnitTest {
     public void deleteDirector() {
         VideoDao dao = new VideoDaoJDBC();
 
-        Director d = dao.getDirectorById(6);
+        Director d = dao.getDirectorById(4);
         assertNotNull(d);
 
         dao.directorProcess(d, CRUD.DELETE);
 
-        d = dao.getDirectorById(6);
+        d = dao.getDirectorById(4);
         assertNull(d);
 
     }
@@ -125,19 +119,11 @@ public class DaoJdbcJUnitTest {
         Actor d = dao.getActorById(1);
 
         assertNotNull(d);
-        assertEquals(d.getNombre(), "Ashton");
+        assertEquals(d.getNombre(), "Natalie");
 
-        assertNotSame(d.getNombre(), "Natalie");
-
-        Actor d2 = dao.getActorById(2);
-
-        assertNotNull(d2);
-        assertEquals(d2.getNombre(), "Natalie");
-
-        assertNotSame(d2.getNombre(), "Ashton");
-
+        assertNotSame(d.getNombre(), "Ashton");
         List<Actor> actores = dao.getActoresByCriteria("");
-
+        Assert.assertFalse(actores.isEmpty());
     }
 
     /**
@@ -149,7 +135,7 @@ public class DaoJdbcJUnitTest {
         VideoDao dao = new VideoDaoJDBC();
         dao.actorProcess(new Actor("Mila", "Kunis"), CRUD.CREATE);
 
-        Director d = dao.getDirectorById(3);
+        Actor d = dao.getActorById(2);
         assertNotNull(d);
         assertEquals(d.getNombre(), "Mila");
     }
@@ -166,12 +152,12 @@ public class DaoJdbcJUnitTest {
         Actor d = dao.getActorById(3);
         assertNotNull(d);
 
-        d.setNombre("Mia");
+        d.setNombre("Erik");
         dao.actorProcess(d, CRUD.UPDATE);
 
         d = dao.getActorById(3);
         assertNotNull(d);
-        assertEquals(d.getNombre(), "Mia");
+        assertEquals(d.getNombre(), "Erik");
 
     }
 
@@ -204,19 +190,12 @@ public class DaoJdbcJUnitTest {
         VideoDao dao = new VideoDaoJDBC();
 
         Cinta d = dao.getCintaById(1);
-
+        System.out.println("d = " + d);
         assertNotNull(d);
-        assertEquals(d.getNumCopia(), "4");
-        assertNotSame(d.getNumCopia(), "2");
-
-        Cinta d2 = dao.getCintaById(2);
-
-        assertNotNull(d2);
-        assertEquals(d2.getNumCopia(), "2");
-        assertNotSame(d2.getNumCopia(), "4");
-
+        Assert.assertTrue(d.getNumCopia()==4);
+        Assert.assertFalse(d.getNumCopia()==2);
         List<Cinta> cintas = dao.getCintasByCriteria("");
-
+        Assert.assertFalse(cintas.isEmpty());
     }
 
     /**
@@ -227,11 +206,12 @@ public class DaoJdbcJUnitTest {
     @Test
     public void makeCinta() {
         VideoDao dao = new VideoDaoJDBC();
-        dao.cintaProcess(new Cinta(Integer.SIZE, null), CRUD.CREATE);
+        Pelicula pelicula = dao.getPeliculaById(2);
+        dao.cintaProcess(new Cinta(5, pelicula), CRUD.CREATE);
 
-        Cinta d = dao.getCintaById(3);
+        Cinta d = dao.getCintaById(2);
         assertNotNull(d);
-        assertEquals(d.getNumCopia(), "5");
+        Assert.assertTrue(d.getNumCopia()==5);
     }
 
     /**
@@ -243,15 +223,15 @@ public class DaoJdbcJUnitTest {
     public void updateCinta() {
         VideoDao dao = new VideoDaoJDBC();
 
-        Cinta d = dao.getCintaById(3);
+        Cinta d = dao.getCintaById(2);
         assertNotNull(d);
 
         d.setNumCopia(10);
         dao.cintaProcess(d, CRUD.UPDATE);
 
-        d = dao.getCintaById(3);
+        d = dao.getCintaById(2);
         assertNotNull(d);
-        assertEquals(d.getNumCopia(), "10");
+        Assert.assertTrue(d.getNumCopia()==10);;
 
     }
 
@@ -263,12 +243,12 @@ public class DaoJdbcJUnitTest {
     public void deleteCinta() {
         VideoDao dao = new VideoDaoJDBC();
 
-        Cinta d = dao.getCintaById(3);
+        Cinta d = dao.getCintaById(2);
         assertNotNull(d);
 
         dao.cintaProcess(d, CRUD.DELETE);
 
-        d = dao.getCintaById(3);
+        d = dao.getCintaById(2);
         assertNull(d);
 
     }
@@ -284,21 +264,12 @@ public class DaoJdbcJUnitTest {
         VideoDao dao = new VideoDaoJDBC();
 
         Ficha d = dao.getFichaById(1);
-
+        Socio socio = dao.getSocioById(1);
         assertNotNull(d);
-        assertEquals(d.getFechaPrestamo(), Date.valueOf("01/01/2016"));
-
-        assertNotSame(d.getFechaPrestamo(), Date.valueOf("02/02/2016"));
-
-        Ficha d2 = dao.getFichaById(2);
-
-        assertNotNull(d2);
-        assertEquals(d2.getFechaPrestamo(), Date.valueOf("02/02/2016"));
-
-        assertNotSame(d2.getFechaPrestamo(), Date.valueOf("01/01/2016"));
-
+        System.out.println("d = " + d);
+        Assert.assertTrue(d.getId().equals(1));
         List<Ficha> fichas = dao.getFichasByCriteria("");
-
+        Assert.assertFalse(fichas.isEmpty());
     }
 
     /**
@@ -309,11 +280,12 @@ public class DaoJdbcJUnitTest {
     @Test
     public void makeFicha() {
         VideoDao dao = new VideoDaoJDBC();
-        dao.fichaProcess(new Ficha(null, null), CRUD.CREATE);
+        Socio socio = dao.getSocioById(1);
+        dao.fichaProcess(new Ficha(Date.valueOf("2016-07-25"), socio), CRUD.CREATE);
 
-        Ficha d = dao.getFichaById(3);
+        Ficha d = dao.getFichaById(2);
         assertNotNull(d);
-        assertEquals(d.getFechaPrestamo(), Date.valueOf("03/03/2016"));
+        Assert.assertTrue(d.getId().equals(2));
     }
 
     /**
@@ -325,15 +297,16 @@ public class DaoJdbcJUnitTest {
     public void updateFicha() {
         VideoDao dao = new VideoDaoJDBC();
 
-        Ficha d = dao.getFichaById(3);
+        Ficha d = dao.getFichaById(2);
         assertNotNull(d);
 
-        d.setFechaPrestamo(Date.valueOf("13/03/2016"));
+        Socio socio = dao.getSocioById(3);
+        d.setSocio(socio);
         dao.fichaProcess(d, CRUD.UPDATE);
 
-        d = dao.getFichaById(3);
+        d = dao.getFichaById(2);
         assertNotNull(d);
-        assertEquals(d.getFechaPrestamo(), Date.valueOf("13/03/2016"));
+        assertTrue(d.getSocio().getId().equals(3));
 
     }
 
@@ -345,12 +318,12 @@ public class DaoJdbcJUnitTest {
     public void deleteFicha() {
         VideoDao dao = new VideoDaoJDBC();
 
-        Ficha d = dao.getFichaById(6);
+        Ficha d = dao.getFichaById(2);
         assertNotNull(d);
 
         dao.fichaProcess(d, CRUD.DELETE);
 
-        d = dao.getFichaById(6);
+        d = dao.getFichaById(2);
         assertNull(d);
 
     }
@@ -366,21 +339,13 @@ public class DaoJdbcJUnitTest {
         VideoDao dao = new VideoDaoJDBC();
 
         Lista d = dao.getListaById(1);
-
+        System.out.println("d = " + d);
         assertNotNull(d);
-        assertEquals(d.getEstatus(), true);
+        assertEquals(d.getEstatus(), Boolean.TRUE);
 
-        assertNotSame(d.getEstatus(), false);
-
-        Lista d2 = dao.getListaById(2);
-
-        assertNotNull(d2);
-        assertEquals(d2.getEstatus(), false);
-
-        assertNotSame(d2.getEstatus(), true);
-
+        assertNotSame(d.getEstatus(), Boolean.FALSE);
         List<Lista> listas = dao.getListasByCriteria("");
-
+        Assert.assertFalse(listas.isEmpty());
     }
 
     /**
@@ -391,9 +356,12 @@ public class DaoJdbcJUnitTest {
     @Test
     public void makeLista() {
         VideoDao dao = new VideoDaoJDBC();
-        dao.listaProcess(new Lista(null, null, Boolean.TRUE, null, null), CRUD.CREATE);
+        Socio socio = dao.getSocioById(1);
+        Pelicula pelicula = dao.getPeliculaById(1);
+        dao.listaProcess(new Lista(Date.valueOf("2016-07-07"), Date.valueOf("2016-07-07"), 
+                Boolean.TRUE, socio, pelicula), CRUD.CREATE);
 
-        Lista d = dao.getListaById(3);
+        Lista d = dao.getListaById(2);
         assertNotNull(d);
         assertEquals(d.getEstatus(), true);
     }
@@ -407,15 +375,15 @@ public class DaoJdbcJUnitTest {
     public void updateLista() {
         VideoDao dao = new VideoDaoJDBC();
 
-        Lista d = dao.getListaById(3);
+        Lista d = dao.getListaById(2);
         assertNotNull(d);
 
-        d.setEstatus(false);
+        d.setEstatus(Boolean.FALSE);
         dao.listaProcess(d, CRUD.UPDATE);
 
-        d = dao.getListaById(3);
+        d = dao.getListaById(2);
         assertNotNull(d);
-        assertEquals(d.getEstatus(), false);
+        assertEquals(d.getEstatus(), Boolean.FALSE);
 
     }
 
@@ -427,12 +395,12 @@ public class DaoJdbcJUnitTest {
     public void deleteLista() {
         VideoDao dao = new VideoDaoJDBC();
 
-        Lista d = dao.getListaById(6);
+        Lista d = dao.getListaById(2);
         assertNotNull(d);
 
         dao.listaProcess(d, CRUD.DELETE);
 
-        d = dao.getListaById(6);
+        d = dao.getListaById(2);
         assertNull(d);
 
     }
@@ -447,24 +415,14 @@ public class DaoJdbcJUnitTest {
     public void peliculaByIdTest() {
         VideoDao dao = new VideoDaoJDBC();
 
-        // Id = 1 James Cameron
         Pelicula d = dao.getPeliculaById(1);
 
         assertNotNull(d);
         assertEquals(d.getTitulo(), "Lluvia de Hamburguesas");
 
         assertNotSame(d.getTitulo(), "Toy Story");
-
-        //Id = 2 Alfonso Cuaron
-        Pelicula d2 = dao.getPeliculaById(2);
-
-        assertNotNull(d2);
-        assertEquals(d2.getTitulo(), "Toy Story");
-
-        assertNotSame(d2.getTitulo(), "Lluvia de Hamburguesas");
-
-        List<Pelicula> peliculas = dao.getPeliculesByCriteria("");
-
+        List<Pelicula> peliculas = dao.getPeliculasByCriteria(" ");
+        Assert.assertFalse(peliculas.isEmpty());
     }
 
     /**
@@ -475,9 +433,10 @@ public class DaoJdbcJUnitTest {
     @Test
     public void makePelicula() {
         VideoDao dao = new VideoDaoJDBC();
-        dao.peliculaProcess(new Pelicula(null, null, Integer.SIZE, null, null), CRUD.CREATE);
+        Director director = dao.getDirectorById(1);
+        dao.peliculaProcess(new Pelicula("Ralph El Demoledor", Genero.ANIMADA , 89, director ), CRUD.CREATE);
 
-        Pelicula d = dao.getPeliculaById(3);
+        Pelicula d = dao.getPeliculaById(2);
         assertNotNull(d);
         assertEquals(d.getTitulo(), "Ralph El Demoledor");
     }
@@ -491,13 +450,13 @@ public class DaoJdbcJUnitTest {
     public void updatePelicula() {
         VideoDao dao = new VideoDaoJDBC();
 
-        Pelicula d = dao.getPeliculaById(3);
+        Pelicula d = dao.getPeliculaById(2);
         assertNotNull(d);
 
         d.setTitulo("Ralph: El Demoledor");
         dao.peliculaProcess(d, CRUD.UPDATE);
 
-        d = dao.getPeliculaById(3);
+        d = dao.getPeliculaById(2);
         assertNotNull(d);
         assertEquals(d.getTitulo(), "Ralph: El Demoledor");
 
@@ -511,12 +470,12 @@ public class DaoJdbcJUnitTest {
     public void deletePelicula() {
         VideoDao dao = new VideoDaoJDBC();
 
-        Pelicula d = dao.getPeliculaById(3);
+        Pelicula d = dao.getPeliculaById(2);
         assertNotNull(d);
 
         dao.peliculaProcess(d, CRUD.DELETE);
 
-        d = dao.getPeliculaById(3);
+        d = dao.getPeliculaById(2);
         assertNull(d);
 
     }
@@ -532,22 +491,14 @@ public class DaoJdbcJUnitTest {
         VideoDao dao = new VideoDaoJDBC();
 
         Prestamo d = dao.getPrestamoById(1);
-
+        System.out.println("d = " + d);
         assertNotNull(d);
-        assertEquals(d.getEstatus(), "ENTREGADO");
+        assertEquals(d.getEstatus(), Prestamos.E);
 
-        assertNotSame(d.getEstatus(), "PRESTADO");
-
-        Prestamo d2 = dao.getPrestamoById(2);
-
-        assertNotNull(d2);
-        assertEquals(d2.getEstatus(), "PRESTADO");
-
-        assertNotSame(d2.getEstatus(), "ENTREGADO");
+        assertNotSame(d.getEstatus(), Prestamos.P);
 
         List<Prestamo> prestamos = dao.getPrestamosByCriteria("");
-        //assertEquals(3, directores.size());
-
+        Assert.assertFalse(prestamos.isEmpty());
     }
 
     /**
@@ -558,11 +509,14 @@ public class DaoJdbcJUnitTest {
     @Test
     public void makePrestamo() {
         VideoDao dao = new VideoDaoJDBC();
-        dao.prestamoProcess(new Prestamo(null, Prestamos.VENCIDO, null, null), CRUD.CREATE);
+        Ficha ficha = dao.getFichaById(1);
+        Cinta cinta = dao.getCintaById(1);
+        dao.prestamoProcess(new Prestamo(Date.valueOf("2016-08-08"), 
+                Prestamos.V, ficha, cinta), CRUD.CREATE);
 
-        Prestamo d = dao.getPrestamoById(3);
+        Prestamo d = dao.getPrestamoById(2);
         assertNotNull(d);
-        assertEquals(d.getEstatus(), "VENCIDO");
+        assertEquals(d.getEstatus(), Prestamos.V);
     }
 
     /**
@@ -574,15 +528,15 @@ public class DaoJdbcJUnitTest {
     public void updatePrestamo() {
         VideoDao dao = new VideoDaoJDBC();
 
-        Prestamo d = dao.getPrestamoById(3);
+        Prestamo d = dao.getPrestamoById(2);
         assertNotNull(d);
 
-        d.setFechaEntrega(Date.valueOf("01/02/2016"));
+        d.setEstatus(Prestamos.P);
         dao.prestamoProcess(d, CRUD.UPDATE);
 
-        d = dao.getPrestamoById(3);
+        d = dao.getPrestamoById(2);
         assertNotNull(d);
-        assertEquals(d.getFechaEntrega(), Date.valueOf("01/02/2016"));
+        assertEquals(d.getEstatus(), Prestamos.P);
 
     }
 
@@ -615,21 +569,13 @@ public class DaoJdbcJUnitTest {
         VideoDao dao = new VideoDaoJDBC();
 
         Socio d = dao.getSocioById(1);
-
+        System.out.println("d = " + d);
         assertNotNull(d);
         assertEquals(d.getNombre(), "Daniela Santillanes");
 
         assertNotSame(d.getNombre(), "Leticia Castro");
-
-        Socio d2 = dao.getSocioById(2);
-
-        assertNotNull(d2);
-        assertEquals(d2.getNombre(), "Leticia Castro");
-
-        assertNotSame(d2.getNombre(), "Daniela Santillanes");
-
         List<Socio> socios = dao.getSociosByCriteria("");
-
+        Assert.assertFalse(socios.isEmpty());
     }
 
     /**
@@ -639,9 +585,9 @@ public class DaoJdbcJUnitTest {
     @Test
     public void makeSocio() {
         VideoDao dao = new VideoDaoJDBC();
-        dao.socioProcess(new Socio("Ararat Mendez", null, null, null, null), CRUD.CREATE);
+        dao.socioProcess(new Socio("Ararat Mendez", "Los Arcos", "6141164137"), CRUD.CREATE);
 
-        Socio d = dao.getSocioById(3);
+        Socio d = dao.getSocioById(2);
         assertNotNull(d);
         assertEquals(d.getNombre(), "Ararat Mendez");
     }
@@ -655,13 +601,13 @@ public class DaoJdbcJUnitTest {
     public void updateSocio() {
         VideoDao dao = new VideoDaoJDBC();
 
-        Socio d = dao.getSocioById(3);
+        Socio d = dao.getSocioById(2);
         assertNotNull(d);
 
         d.setNombre("Consuelo Ararat Mendez");
         dao.socioProcess(d, CRUD.UPDATE);
 
-        d = dao.getSocioById(3);
+        d = dao.getSocioById(2);
         assertNotNull(d);
         assertEquals(d.getNombre(), "Consuelo Ararat Mendez");
 
@@ -684,4 +630,5 @@ public class DaoJdbcJUnitTest {
         assertNull(d);
 
     }
+
 }

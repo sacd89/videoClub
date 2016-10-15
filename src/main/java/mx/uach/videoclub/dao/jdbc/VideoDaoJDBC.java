@@ -1,6 +1,5 @@
 package mx.uach.videoclub.dao.jdbc;
 
-import java.sql.Array;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,12 +21,18 @@ import mx.uach.videoclub.modelos.Prestamo;
 import mx.uach.videoclub.modelos.Socio;
 
 /**
- *
+ * Modelo que se encarga de realizar la logica para la busqueda, actualizacion, 
+ * creacion y eliminacion de los datos.
+ * 
  * @author Daniela Santillanes Castro
  * @version 1.0
+ * @since 14/10/2016
  */
 public class VideoDaoJDBC implements VideoDao {
 
+    /**
+     * Constructor vacio.
+     */
     public VideoDaoJDBC() {
     }
 
@@ -51,7 +56,7 @@ public class VideoDaoJDBC implements VideoDao {
             }
             return obj;
         } catch (SQLException ex) {
-
+            System.out.println("ex = " + ex.getMessage());
         }
         return null;
     }
@@ -196,7 +201,7 @@ public class VideoDaoJDBC implements VideoDao {
                             getCon().prepareStatement(Actor.UPDATE_ACTOR);
                     ps.setString(1, actor.getNombre());
                     ps.setString(2, actor.getApellido());
-                    ps.setInt(2, actor.getId());
+                    ps.setInt(3, actor.getId());
                     break;
                 case DELETE:
                     ps = Conexion.getInstance().
@@ -234,7 +239,7 @@ public class VideoDaoJDBC implements VideoDao {
             }
             return obj;
         } catch (SQLException ex) {
-
+            System.out.println("ex = " + ex.getMessage());
         }
         return null;
     }
@@ -280,14 +285,14 @@ public class VideoDaoJDBC implements VideoDao {
                     ps = Conexion.getInstance().
                             getCon().prepareStatement(Cinta.INSERT_CINTA);
                     ps.setInt(1, cinta.getNumCopia());
-                    ps.setObject(2, cinta.getPelicula());
+                    ps.setInt(2, cinta.getPelicula().getId());
                     break;
                 case UPDATE:
                     //UPDATE TABLA SET()
                     ps = Conexion.getInstance().
                             getCon().prepareStatement(Cinta.UPDATE_CINTA);
                     ps.setInt(1, cinta.getNumCopia());
-                    ps.setObject(2, cinta.getPelicula());
+                    ps.setInt(2, cinta.getPelicula().getId());
                     ps.setInt(3, cinta.getId());
                     break;
                 case DELETE:
@@ -372,14 +377,14 @@ public class VideoDaoJDBC implements VideoDao {
                     ps = Conexion.getInstance().
                             getCon().prepareStatement(Ficha.INSERT_FICHA);
                     ps.setDate(1, (Date) ficha.getFechaPrestamo());
-                    ps.setObject(2, ficha.getSocio());
+                    ps.setInt(2, ficha.getSocio().getId());
                     break;
                 case UPDATE:
                     //UPDATE TABLA SET()
                     ps = Conexion.getInstance().
                             getCon().prepareStatement(Ficha.UPDATE_FICHA);
                     ps.setDate(1, (Date) ficha.getFechaPrestamo());
-                    ps.setObject(2, ficha.getSocio());
+                    ps.setInt(2, ficha.getSocio().getId());
                     ps.setInt(3, ficha.getId());
                     break;
                 case DELETE:
@@ -466,8 +471,8 @@ public class VideoDaoJDBC implements VideoDao {
                     ps.setDate(1, (Date) lista.getFecha());
                     ps.setDate(2, (Date) lista.getHora());
                     ps.setBoolean(3, lista.getEstatus());
-                    ps.setObject(4, lista.getSocio());
-                    ps.setObject(5, lista.getPelicula());
+                    ps.setInt(4, lista.getSocio().getId());
+                    ps.setInt(5, lista.getPelicula().getId());
                     break;
                 case UPDATE:
                     //UPDATE TABLA SET()
@@ -476,8 +481,8 @@ public class VideoDaoJDBC implements VideoDao {
                     ps.setDate(1, (Date) lista.getFecha());
                     ps.setDate(2, (Date) lista.getHora());
                     ps.setBoolean(3, lista.getEstatus());
-                    ps.setObject(4, lista.getSocio());
-                    ps.setObject(5, lista.getPelicula());
+                    ps.setInt(4, lista.getSocio().getId());
+                    ps.setInt(5, lista.getPelicula().getId());
                     ps.setInt(6, lista.getId());
                     break;
                 case DELETE:
@@ -529,7 +534,7 @@ public class VideoDaoJDBC implements VideoDao {
      * @return objects que es la lista de peliculas.
      */
     @Override
-    public List<Pelicula> getPeliculesByCriteria(String criterio) {
+    public List<Pelicula> getPeliculasByCriteria(String criterio) {
         List<Pelicula> objects = new ArrayList<>();
         try {
             Statement st = Conexion.getInstance().getCon().createStatement();
@@ -562,21 +567,19 @@ public class VideoDaoJDBC implements VideoDao {
                     ps = Conexion.getInstance().
                             getCon().prepareStatement(Pelicula.INSERT_PELICULA);
                     ps.setString(1, pelicula.getTitulo());
-                    ps.setObject(2, pelicula.getGenero());
+                    ps.setString(2, pelicula.getGenero().toString());
                     ps.setInt(3, pelicula.getDuracion());
-                    ps.setObject(4, pelicula.getDirector());
-                    ps.setArray(5, (Array) pelicula.getActores());
+                    ps.setInt(4, pelicula.getDirector().getId());
                     break;
                 case UPDATE:
                     //UPDATE TABLA SET()
                     ps = Conexion.getInstance().
                             getCon().prepareStatement(Pelicula.UPDATE_PELICULA);
                     ps.setString(1, pelicula.getTitulo());
-                    ps.setObject(2, pelicula.getGenero());
+                    ps.setString(2, pelicula.getGenero().toString());
                     ps.setInt(3, pelicula.getDuracion());
-                    ps.setObject(4, pelicula.getDirector());
-                    ps.setArray(5, (Array) pelicula.getActores());
-                    ps.setInt(6, pelicula.getId());
+                    ps.setInt(4, pelicula.getDirector().getId());
+                    ps.setInt(5, pelicula.getId());
                     break;
                 case DELETE:
                     ps = Conexion.getInstance().
@@ -614,7 +617,7 @@ public class VideoDaoJDBC implements VideoDao {
             }
             return obj;
         } catch (SQLException ex) {
-
+            System.out.println("ex = " + ex.getMessage());
         }
         return null;
     }
@@ -660,18 +663,18 @@ public class VideoDaoJDBC implements VideoDao {
                     ps = Conexion.getInstance().
                             getCon().prepareStatement(Prestamo.INSERT_PRESTAMO);
                     ps.setDate(1, (Date) prestamo.getFechaEntrega());
-                    ps.setObject(2, prestamo.getEstatus());
-                    ps.setObject(3, prestamo.getFicha());
-                    ps.setObject(4, prestamo.getCinta());
+                    ps.setString(2, prestamo.getEstatus().toString());
+                    ps.setInt(3, prestamo.getFicha().getId());
+                    ps.setInt(4, prestamo.getCinta().getId());
                     break;
                 case UPDATE:
                     //UPDATE TABLA SET()
                     ps = Conexion.getInstance().
                             getCon().prepareStatement(Prestamo.UPDATE_PRESTAMO);
                     ps.setDate(1, (Date) prestamo.getFechaEntrega());
-                    ps.setObject(2, prestamo.getEstatus());
-                    ps.setObject(3, prestamo.getFicha());
-                    ps.setObject(4, prestamo.getCinta());
+                   ps.setString(2, prestamo.getEstatus().toString());
+                    ps.setInt(3, prestamo.getFicha().getId());
+                    ps.setInt(4, prestamo.getCinta().getId());
                     ps.setInt(5, prestamo.getId());
                     break;
                 case DELETE:
@@ -758,8 +761,6 @@ public class VideoDaoJDBC implements VideoDao {
                     ps.setString(1, socio.getNombre());
                     ps.setString(2, socio.getDireccion());
                     ps.setString(3, socio.getTelefono());
-                    ps.setArray(4, (Array) socio.getDirectores());
-                    ps.setArray(5, (Array) socio.getActores());
                     break;
                 case UPDATE:
                     //UPDATE TABLA SET()
@@ -768,9 +769,7 @@ public class VideoDaoJDBC implements VideoDao {
                     ps.setString(1, socio.getNombre());
                     ps.setString(2, socio.getDireccion());
                     ps.setString(3, socio.getTelefono());
-                    ps.setArray(4, (Array) socio.getDirectores());
-                    ps.setArray(5, (Array) socio.getActores());
-                    ps.setInt(6, socio.getId());
+                    ps.setInt(4, socio.getId());
                     break;
                 case DELETE:
                     ps = Conexion.getInstance().

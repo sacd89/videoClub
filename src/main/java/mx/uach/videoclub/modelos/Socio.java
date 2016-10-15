@@ -1,6 +1,5 @@
 package mx.uach.videoclub.modelos;
 
-import java.util.List;
 import mx.uach.videoclub.modelos.genericos.Model;
 
 /**
@@ -12,10 +11,10 @@ import mx.uach.videoclub.modelos.genericos.Model;
  */
 public class Socio extends Model {
 
-    public static final String TABLA = "Socio";
+    public static final String TABLA = "socios";
 
     public static final String[] FIELDS = {"id", "nombre", "direccion",
-        "telefono", "directores", "actores"};
+        "telefono"};
 
     public static final String Q = String.format("SELECT %s FROM %s",
             fieldsToQuery(FIELDS, Boolean.FALSE), TABLA);
@@ -36,8 +35,6 @@ public class Socio extends Model {
     private String nombre;
     private String direccion;
     private String telefono;
-    private List<Director> directores;
-    private List<Actor> actores;
 
     /**
      * Constructor vacio.
@@ -52,15 +49,11 @@ public class Socio extends Model {
      * @param nombre que es el nombre del socio.
      * @param direccion que es la direccion del socio.
      * @param telefono que es el telefono del socio.
-     * @param directores que son los directores favoritos del socio.
-     * @param actores que son los actores favoritos del socio.
      */
-    public Socio(String nombre, String direccion, String telefono, List<Director> directores, List<Actor> actores) {
+    public Socio(String nombre, String direccion, String telefono) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.telefono = telefono;
-        this.directores = directores;
-        this.actores = actores;
     }
 
     /**
@@ -71,16 +64,12 @@ public class Socio extends Model {
      * @param nombre que es el nombre del socio.
      * @param direccion que es la direccion del socio.
      * @param telefono que es el telefono del socio.
-     * @param directores que son los directores favoritos del socio.
-     * @param actores que son los actores favoritos del socio.
      */
-    public Socio(Integer id, String nombre, String direccion, String telefono, List<Director> directores, List<Actor> actores) {
+    public Socio(Integer id, String nombre, String direccion, String telefono) {
         this.setId(id);
         this.nombre = nombre;
         this.direccion = direccion;
         this.telefono = telefono;
-        this.directores = directores;
-        this.actores = actores;
     }
 
     /**
@@ -137,39 +126,4 @@ public class Socio extends Model {
         this.telefono = telefono;
     }
 
-    /**
-     * Método que obtiene una lista de directores del socio.
-     *
-     * @return directores que son los directores favoritos del socio.
-     */
-    public List<Director> getDirectores() {
-        return directores;
-    }
-
-    /**
-     * Método que asigna directores favoritos a un socio.
-     *
-     * @param directores que es una lista de directores favoritos del socio.
-     */
-    public void setDirectores(List<Director> directores) {
-        this.directores = directores;
-    }
-
-    /**
-     * Método que obtiene una lista de actores del socio.
-     *
-     * @return actores que son los actores favoritos del socio.
-     */
-    public List<Actor> getActores() {
-        return actores;
-    }
-
-    /**
-     * Método que asigna actores favoritos a un socio.
-     *
-     * @param actores que es una lista de actores favoritos del socio.
-     */
-    public void setActores(List<Actor> actores) {
-        this.actores = actores;
-    }
 }
