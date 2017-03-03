@@ -17,7 +17,7 @@ public class Conexion {
     private final static String USUARIO = "root";
     private final static String PASSWORD = "soojung";
     private final static String CONEXION =
-            "jdbc:mysql://localhost:3306/db_video?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+            "jdbc:mysql://localhost:3306/mydb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     private static Conexion INSTANCE;
     private Connection con;
 

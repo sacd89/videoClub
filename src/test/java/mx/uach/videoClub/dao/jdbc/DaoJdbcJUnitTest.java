@@ -62,7 +62,7 @@ public class DaoJdbcJUnitTest {
         VideoDao dao = new VideoDaoJDBC();
         dao.directorProcess(new Director("Tim Burton"), CRUD.CREATE);
 
-        Director d = dao.getDirectorById(4);
+        Director d = dao.getDirectorById(2);
         assertNotNull(d);
         assertEquals(d.getNombre(), "Tim Burton");
     }
@@ -76,6 +76,7 @@ public class DaoJdbcJUnitTest {
     public void updateDirector() {
         VideoDao dao = new VideoDaoJDBC();
 
+        dao.directorProcess(new Director("Ararat"), CRUD.CREATE);
         Director d = dao.getDirectorById(3);
         assertNotNull(d);
 
@@ -95,7 +96,7 @@ public class DaoJdbcJUnitTest {
     @Test
     public void deleteDirector() {
         VideoDao dao = new VideoDaoJDBC();
-
+        dao.directorProcess(new Director("Daniela"), CRUD.CREATE);
         Director d = dao.getDirectorById(4);
         assertNotNull(d);
 
@@ -148,7 +149,7 @@ public class DaoJdbcJUnitTest {
     @Test
     public void updateActor() {
         VideoDao dao = new VideoDaoJDBC();
-
+        dao.actorProcess(new Actor("Ararat", "Mendez"), CRUD.CREATE);
         Actor d = dao.getActorById(3);
         assertNotNull(d);
 
@@ -300,13 +301,13 @@ public class DaoJdbcJUnitTest {
         Ficha d = dao.getFichaById(2);
         assertNotNull(d);
 
-        Socio socio = dao.getSocioById(3);
+        Socio socio = dao.getSocioById(1);
         d.setSocio(socio);
         dao.fichaProcess(d, CRUD.UPDATE);
 
         d = dao.getFichaById(2);
         assertNotNull(d);
-        assertTrue(d.getSocio().getId().equals(3));
+        assertTrue(d.getSocio().getId().equals(1));
 
     }
 
