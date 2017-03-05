@@ -32,7 +32,7 @@ public class MockitoJUnitTest {
    @Test
    public void directorId(){
       //add the behavior of calc service to add two numbers
-      when(directorInterface.getIdDirector(1)).thenReturn(3);
+      when(directorInterface.getIdDirector(1)).thenReturn(1);
 		
       //test the add functionality
       Assert.assertEquals(directorMockito.getIdDirectorMockito(1),1,0);
@@ -44,6 +44,6 @@ public class MockitoJUnitTest {
       when(directorInterface.getNombreDirector("Daniela")).thenReturn("Daniela");
 		
       //test the add functionality
-      Assert.assertEquals(directorMockito.getNombreDirectorMockito("Daniela"),"Daniela",0);
+      Assert.assertEquals(directorMockito.getNombreDirectorMockito("Daniela"),"Daniela");
    }
 }
